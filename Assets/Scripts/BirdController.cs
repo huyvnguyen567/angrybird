@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class BirdController : MonoBehaviour
 {
@@ -9,6 +8,7 @@ public class BirdController : MonoBehaviour
     private Rigidbody2D rb;
     public float speed = 1000;
     private bool isDragging = false;
+
     private EnemyPooling pooling;
     private BirdSpawner birdSpawner;
 
@@ -24,6 +24,8 @@ public class BirdController : MonoBehaviour
 
     GameManager gameManager;
     public int score = 1;
+
+    public float velocity;
 
     void Start()
     {
@@ -48,7 +50,9 @@ public class BirdController : MonoBehaviour
     }
     private void Update()
     {
-        if (transform.position.y <= -4)
+        velocity = rb.velocity.magnitude;
+        
+        if (transform.position.y <= -4 || velocity <=1 && transform.position.y <=-2.5)
         {
             Destroy(gameObject);
             birdSpawner.SpawnBird();
@@ -116,20 +120,24 @@ public class BirdController : MonoBehaviour
         {
             audioSource.PlayOneShot(hitAudio);
             collision.gameObject.SetActive(false);
-            Destroy(gameObject);
             gameManager.UpdateScore(score);
-            birdSpawner.SpawnBird();
-            if (!collision.gameObject.activeInHierarchy)
+            if (transform.position.y <= -4 || velocity <= 1 && transform.position.y <= -2.5)
             {
-                pooling.GetRandomEnemy();
-            }
+                
+                Destroy(gameObject);
+                birdSpawner.SpawnBird();
+                
+            } 
+            else
+            {
+                if (!collision.gameObject.activeInHierarchy)
+                {
+                    pooling.GetRandomEnemy();
+                }
+            }    
+       
+           
         }
-        if (collision.gameObject.tag == "ground")
-        {
-            birdSpawner.SpawnBird();
-            Destroy(gameObject);
-        }    
+        
     }
-
- 
 }
