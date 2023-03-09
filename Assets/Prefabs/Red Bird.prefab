@@ -108,6 +108,7 @@ MonoBehaviour:
   hitAudio: {fileID: 8300000, guid: 9cc976b419be8194982d4f250b5f7215, type: 3}
   score: 1
   velocity: 0
+  smokePref: {fileID: 231029324779120156, guid: 0c805ba3eaa555d4382d63f20739f3fc, type: 3}
 --- !u!50 &5807827692842674943
 Rigidbody2D:
   serializedVersion: 4
@@ -142,9 +143,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.06, y: -0.06}
+  m_Offset: {x: 0.03, y: -0.03}
   serializedVersion: 2
-  m_Radius: 0.33
+  m_Radius: 0.2
 --- !u!82 &6517158151411019276
 AudioSource:
   m_ObjectHideFlags: 0

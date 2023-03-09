@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4197538762332160951}
   - component: {fileID: 1236116586295794393}
-  - component: {fileID: -4484985110399646291}
-  - component: {fileID: 5848443807909790934}
-  - component: {fileID: 4083663229205228287}
-  - component: {fileID: -5777503023361055453}
-  m_Layer: 6
+  - component: {fileID: 5284785826637248312}
+  - component: {fileID: 3488122872765998965}
+  - component: {fileID: 8007675806223385299}
+  - component: {fileID: 5773370350521187975}
+  m_Layer: 0
   m_Name: Black Bird
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1394201872588555748}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -2.9336321, y: -2.638484, z: 0}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -77,18 +77,18 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1335196667, guid: d12837c0f4c5ed341a99f4df4d0bd358, type: 3}
+  m_Sprite: {fileID: 493153263, guid: d12837c0f4c5ed341a99f4df4d0bd358, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.61, y: 0.81}
+  m_Size: {x: 0.74, y: 0.67}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-4484985110399646291
+--- !u!114 &5284785826637248312
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,7 +108,8 @@ MonoBehaviour:
   hitAudio: {fileID: 8300000, guid: 9cc976b419be8194982d4f250b5f7215, type: 3}
   score: 1
   velocity: 0
---- !u!50 &5848443807909790934
+  smokePref: {fileID: 231029324779120156, guid: 0c805ba3eaa555d4382d63f20739f3fc, type: 3}
+--- !u!50 &3488122872765998965
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -129,7 +130,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &4083663229205228287
+--- !u!58 &8007675806223385299
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,7 +146,7 @@ CircleCollider2D:
   m_Offset: {x: 0.06, y: -0.06}
   serializedVersion: 2
   m_Radius: 0.33
---- !u!82 &-5777503023361055453
+--- !u!82 &5773370350521187975
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

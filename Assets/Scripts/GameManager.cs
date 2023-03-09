@@ -30,10 +30,7 @@ public class GameManager : MonoBehaviour
             LoadVolume();
         }
     }
-    private void Update()
-    {
-      
-    }
+   
     public void UpdateScore(int score)
     {
         scoreValue += score;

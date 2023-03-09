@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,6 +29,9 @@ public class BirdController : MonoBehaviour
 
     bool collied = false;
 
+    public GameObject smokePref;
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -48,10 +51,11 @@ public class BirdController : MonoBehaviour
             points[i] = Instantiate(point, startPosition, Quaternion.identity);
             points[i].SetActive(false);
         }
-      
+        ;
     }
     private void Update()
     {
+
         velocity = rb.velocity.magnitude;
         
         if (transform.position.y <= -4 || velocity <=1 && transform.position.y <=-2.5)
@@ -121,6 +125,7 @@ public class BirdController : MonoBehaviour
         if(collision.gameObject.tag == "enemy" && collied == false)
         {
             collied = true;
+
             audioSource.PlayOneShot(hitAudio);
             collision.gameObject.SetActive(false);
             gameManager.UpdateScore(score);
@@ -135,9 +140,12 @@ public class BirdController : MonoBehaviour
             {
                 if (!collision.gameObject.activeInHierarchy)
                 {
+                    GameObject smoke = Instantiate(smokePref, collision.transform.position, Quaternion.identity);
+                    Destroy(smoke, 0.8f);
                     pooling.GetRandomEnemy();
                 }
             }
         }        
     }
+      
 }

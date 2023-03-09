@@ -108,6 +108,7 @@ MonoBehaviour:
   hitAudio: {fileID: 8300000, guid: 9cc976b419be8194982d4f250b5f7215, type: 3}
   score: 1
   velocity: 0
+  smokePref: {fileID: 231029324779120156, guid: 0c805ba3eaa555d4382d63f20739f3fc, type: 3}
 --- !u!50 &7878825781767100055
 Rigidbody2D:
   serializedVersion: 4
