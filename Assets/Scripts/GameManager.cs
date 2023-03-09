@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         scoreText.text = "Score: " + scoreValue.ToString();
+        AudioListener.volume = sliderSound.value;
+
 
         if (!PlayerPrefs.HasKey("volumePref"))
         {

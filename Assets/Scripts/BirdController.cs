@@ -27,6 +27,8 @@ public class BirdController : MonoBehaviour
 
     public float velocity;
 
+    bool collied = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -116,8 +118,9 @@ public class BirdController : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "enemy")
+        if(collision.gameObject.tag == "enemy" && collied == false)
         {
+            collied = true;
             audioSource.PlayOneShot(hitAudio);
             collision.gameObject.SetActive(false);
             gameManager.UpdateScore(score);
@@ -134,10 +137,7 @@ public class BirdController : MonoBehaviour
                 {
                     pooling.GetRandomEnemy();
                 }
-            }    
-       
-           
-        }
-        
+            }
+        }        
     }
 }

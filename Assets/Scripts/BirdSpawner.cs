@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class BirdSpawner : MonoBehaviour
 {
-    public GameObject birdPrefab;
-    
+    public GameObject[] birdPrefab;
+    int birdIndexSelected;
+    private void Start()
+    {
+        birdIndexSelected = PlayerPrefs.GetInt("birdIndex");
+        SpawnBird();
+    }
+
     public void SpawnBird()
     {
-        Instantiate(birdPrefab, transform.position, transform.rotation);
+        Instantiate(birdPrefab[birdIndexSelected], transform.position, transform.rotation);
     }
 }
