@@ -4,9 +4,29 @@ using UnityEngine;
 
 public class EnemyPooling : MonoBehaviour
 {
-    public GameObject enemyPrefab;
-    public int poolSize = 6;
-    public List<GameObject> enemyPools;
+    private static EnemyPooling instance; 
+    [SerializeField] GameObject enemyPrefab;
+    [SerializeField] int poolSize = 6;
+    [SerializeField] List<GameObject> enemyPools;
+    [SerializeField] GameObject enemySpawner;
+
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+    public static EnemyPooling Instance
+    {
+        get { return instance; }
+    }
     void Start()
     {
         enemyPools = new List<GameObject>();
@@ -14,16 +34,26 @@ public class EnemyPooling : MonoBehaviour
         {
             GameObject enemy = Instantiate(enemyPrefab);
             enemy.SetActive(false);
+            enemy.transform.SetParent(enemySpawner.transform);
             enemyPools.Add((enemy));
         }
-        GetRandomEnemy();
+
+        GameObject initEnemy = GetPoolObject();
+         initEnemy.transform.position = enemySpawner.transform.position;
+         initEnemy.SetActive(true);
     }
 
-    public void GetRandomEnemy()
+   
+    public GameObject GetPoolObject()
     {
-        int randomIndex = Random.Range(0, poolSize);
-        enemyPools[randomIndex].transform.position = transform.position;
-        enemyPools[randomIndex].SetActive(true);
+        for(int i=0; i<enemyPools.Count; i++)
+        {
+            if(!enemyPools[i].activeInHierarchy)
+            {
+                return enemyPools[i];
+            }    
+        }
+        return null;
     }
 
 }

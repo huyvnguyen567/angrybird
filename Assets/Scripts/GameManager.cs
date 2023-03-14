@@ -7,22 +7,40 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public Text scoreText;
-    public int scoreValue;
+    private static GameManager instance;
 
-    public Image setting;
+    [SerializeField] Text scoreText;
+    [SerializeField] int scoreValue;
 
-    public Slider sliderSound;
+    [SerializeField] Image setting;
 
+    [SerializeField] Slider sliderSound;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+    public static GameManager Instance
+    {
+        get { return instance; }
+    }
     void Start()
     {
-        scoreText.text = "Score: " + scoreValue.ToString();
+        scoreText.text = "Score: " + scoreValue;
         AudioListener.volume = sliderSound.value;
 
 
-        if (!PlayerPrefs.HasKey("volumePref"))
+        if (!PlayerPrefs.HasKey(Constants.VOLUME))
         {
-            PlayerPrefs.SetFloat("volumePref", 1);
+            PlayerPrefs.SetFloat(Constants.VOLUME, 1);
             LoadVolume();
         }
         else
@@ -34,7 +52,7 @@ public class GameManager : MonoBehaviour
     public void UpdateScore(int score)
     {
         scoreValue += score;
-        scoreText.text = "Score: " + scoreValue.ToString();
+        scoreText.text = "Score: " + scoreValue;
     }
     public void ChangeVolume()
     {
@@ -43,11 +61,11 @@ public class GameManager : MonoBehaviour
     }
     public void LoadVolume()
     {
-        sliderSound.value = PlayerPrefs.GetFloat("volumePref");
+        sliderSound.value = PlayerPrefs.GetFloat(Constants.VOLUME);
     }   
     public void SaveVolume()
     {
-        PlayerPrefs.SetFloat("volumePref", sliderSound.value);
+        PlayerPrefs.SetFloat(Constants.VOLUME, sliderSound.value);
     }    
    
     public void StateSetting(bool state)

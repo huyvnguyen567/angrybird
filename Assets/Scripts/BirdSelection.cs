@@ -6,10 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class BirdSelection : MonoBehaviour
 {
-    public GameObject[] birds;
-    public int birdIndex = 0;
+    [SerializeField] GameObject[] birds;
+    [SerializeField] int birdIndex = 0;
 
-    public Image selectionBackround;
+    [SerializeField] Image selectionBackround;
 
     public void State(bool state)
     {
@@ -34,7 +34,7 @@ public class BirdSelection : MonoBehaviour
     
     public void StartGame(string scene)
     {
-        PlayerPrefs.SetInt("birdIndex", birdIndex);
+        PlayerPrefs.SetInt(Constants.BIRDINDEX, birdIndex);
         SceneManager.LoadScene(scene);
     }
 }

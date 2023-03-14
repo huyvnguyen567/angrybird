@@ -6,52 +6,36 @@ public class BirdController : MonoBehaviour
 {
     private Vector2 startPosition;
     private Rigidbody2D rb;
-    public float speed = 1000;
+    [SerializeField] float speed = 1000.0f;
     private bool isDragging = false;
 
-    private EnemyPooling pooling;
-    private BirdSpawner birdSpawner;
-
-    public GameObject point;
-    GameObject[] points;
-    public int numberOfPoints;
-    public float spaceBetweenPoint;
+    [SerializeField] LineRenderer line;
+    [SerializeField] int numberOfPoints;
+    [SerializeField] float spaceBetweenPoint;
     Vector2 direction1;
-    public float launchForce;
+    [SerializeField] float launchForce;
 
-    public AudioClip hitAudio;
+    [SerializeField] AudioClip hitAudio;
     private AudioSource audioSource;
 
-    GameManager gameManager;
-    public int score = 1;
+    [SerializeField] int score = 1;
 
-    public float velocity;
+    [SerializeField] float velocity;
 
     bool collied = false;
 
-    public GameObject smokePref;
+    [SerializeField] GameObject smokePref;
 
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
+        line = GetComponent<LineRenderer>();
+    }
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
         startPosition = rb.position;
-
-        gameManager = FindObjectOfType<GameManager>();
-
-        pooling = FindObjectOfType<EnemyPooling>();
-        birdSpawner = FindObjectOfType<BirdSpawner>();
-
-        audioSource = GetComponent<AudioSource>();
-
-        points = new GameObject[numberOfPoints];
-        
-        for (int i = 0; i < numberOfPoints; i++)
-        {
-            points[i] = Instantiate(point, startPosition, Quaternion.identity);
-            points[i].SetActive(false);
-        }
-        ;
     }
     private void Update()
     {
@@ -61,29 +45,27 @@ public class BirdController : MonoBehaviour
         if (transform.position.y <= -4 || velocity <=1 && transform.position.y <=-2.5)
         {
             Destroy(gameObject);
-            birdSpawner.SpawnBird();
+            BirdSpawner.Instance.SpawnBird();
         }
 
         if (isDragging == true)
         {
-            for (int i = 0; i < numberOfPoints; i++)
+            line.positionCount = numberOfPoints;
+            for (int i = 0; i < line.positionCount; i++)
             {
-                points[i].SetActive(true);
-                points[i].transform.position = PointPosition(i * spaceBetweenPoint);
+                line.SetPosition(i, PointPosition(i * spaceBetweenPoint));
             }
         }
-        if (Vector2.Distance(transform.position, startPosition) > 2)
+        if (Vector2.Distance(transform.position, startPosition) > 2.0f)
         {
-            for (int i = 0; i < numberOfPoints; i++)
-            {
-                Destroy(points[i]);
-            }
+            line.enabled = false;
+            
         }
     }
 
-    Vector2 PointPosition(float t)
+    Vector3 PointPosition(float t)
     {
-        Vector2 position = startPosition + (direction1.normalized * launchForce * t) + 0.5f * Physics2D.gravity * Mathf.Pow(t,2); ;
+        Vector3 position = startPosition + (direction1.normalized * launchForce * t) + 0.5f * Physics2D.gravity * Mathf.Pow(t,2); ;
         return position;
     }
     private void OnMouseDown()
@@ -105,7 +87,7 @@ public class BirdController : MonoBehaviour
     {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 targetPosition = mousePosition;
-        if (Vector2.Distance(targetPosition, startPosition) > 2)
+        if (Vector2.Distance(targetPosition, startPosition) > 2.0f)
         {
             Vector2 direction = targetPosition - startPosition;
             direction.Normalize();
@@ -122,18 +104,18 @@ public class BirdController : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "enemy" && collied == false)
+        if(collision.gameObject.tag == Constants.ENEMY && collied == false)
         {
             collied = true;
 
             audioSource.PlayOneShot(hitAudio);
             collision.gameObject.SetActive(false);
-            gameManager.UpdateScore(score);
+            GameManager.Instance.UpdateScore(score);
             if (transform.position.y <= -4 || velocity <= 1 && transform.position.y <= -2.5)
             {
                 
                 Destroy(gameObject);
-                birdSpawner.SpawnBird();
+                BirdSpawner.Instance.SpawnBird();
                 
             } 
             else
@@ -142,7 +124,12 @@ public class BirdController : MonoBehaviour
                 {
                     GameObject smoke = Instantiate(smokePref, collision.transform.position, Quaternion.identity);
                     Destroy(smoke, 0.8f);
-                    pooling.GetRandomEnemy();
+                    GameObject enemy = EnemyPooling.Instance.GetPoolObject();
+                    if(enemy != null)
+                    {
+                        enemy.transform.position = new Vector3(1.45f,2.07f,0);
+                        enemy.SetActive(true);
+                    }    
                 }
             }
         }        
