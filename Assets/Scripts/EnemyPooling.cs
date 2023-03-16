@@ -4,33 +4,20 @@ using UnityEngine;
 
 public class EnemyPooling : MonoBehaviour
 {
-    private static EnemyPooling instance; 
-    [SerializeField] GameObject enemyPrefab;
-    [SerializeField] int poolSize = 6;
-    [SerializeField] List<GameObject> enemyPools;
-    [SerializeField] GameObject enemySpawner;
-
+    [SerializeField] private AngryBirdModel model;
+    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private GameObject enemySpawner;
+    public int PoolSize { get; set; }
+    private List<GameObject> enemyPools;
 
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-    public static EnemyPooling Instance
-    {
-        get { return instance; }
+        PoolSize = model.PoolSize;
     }
     void Start()
     {
         enemyPools = new List<GameObject>();
-        for(int i=0; i< poolSize; i++)
+        for(int i=0; i< PoolSize; i++)
         {
             GameObject enemy = Instantiate(enemyPrefab);
             enemy.SetActive(false);

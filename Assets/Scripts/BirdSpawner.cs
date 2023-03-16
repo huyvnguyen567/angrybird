@@ -4,26 +4,20 @@ using UnityEngine;
 
 public class BirdSpawner : MonoBehaviour
 {
-    private static BirdSpawner instance;
-    [SerializeField] GameObject[] birdPrefab;
-    [SerializeField] int birdIndexSelected;
+    [SerializeField] private BirdController[] birdPrefab;
 
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-    public static BirdSpawner Instance
-    {
-        get { return instance; }
-    }
+    //[SerializeField] GameManager gameManager;
+    [SerializeField] private BirdSpawner birdSpawner;
+    [SerializeField] private EnemyPooling enemyPooling;
+
+    [SerializeField] private AngryBirdAudio Audio;
+    [SerializeField] private AngryBirdView view;
+    [SerializeField] private AngryBirdModel model;
+    [SerializeField] private AngryBirdController controller;
+
+    private int birdIndexSelected;
+
+
     private void Start()
     {
         birdIndexSelected = PlayerPrefs.GetInt(Constants.BIRDINDEX);
@@ -32,6 +26,24 @@ public class BirdSpawner : MonoBehaviour
 
     public void SpawnBird()
     {
-        Instantiate(birdPrefab[birdIndexSelected], transform.position, transform.rotation);
+        var bird = Instantiate(birdPrefab[birdIndexSelected], transform.position, transform.rotation);
+        //bird.GameManager = gameManager;
+        bird.BirdSpawner = birdSpawner;
+        bird.EnemyPooling = enemyPooling;
+        bird.AngryBirdAudio = Audio;
+        bird.AngryBirdView = view;
+        bird.AngryBirdController = controller;
+        
+
+        //Lay data tu script model
+        bird.Speed = model.Speed;
+        bird.NumberOfPoints = model.NumberOfPoints;
+        bird.SpaceBetweenPoint = model.SpaceBetweenPoint;
+        bird.LaunchForce = model.LaunchForce;
+        bird.Score = model.Score;
+        bird.Velocity = model.Velocity;
+
+        controller.Bird = bird;
+        view.Bird = bird;
     }
 }
